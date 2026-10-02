@@ -2,11 +2,15 @@ package com.mirellageri.horoscopo
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -28,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     )
     lateinit var recyclerView : RecyclerView
     lateinit var adapter: HoroscopeAdapter
+    lateinit var menuToolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +43,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
+        menuToolBar = findViewById(R.id.menuToolBar)
+        setSupportActionBar(menuToolBar)
         recyclerView = findViewById(R.id.recyclerView)
         //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
         adapter = HoroscopeAdapter(horoscopeList) { position ->
@@ -46,9 +52,33 @@ class MainActivity : AppCompatActivity() {
             //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
             val intent = Intent(this, DetailActivity::class.java)
             intent.putExtra("HOROSCOPE_ID",horoscope.id)
+            intent.putExtra("HOROSCOPE_NAME",horoscope.name)
+            intent.putExtra("HOROSCOPE_DATE",horoscope.date)
+            intent.putExtra("HOROSCOPE_SIGN",horoscope.sign)
             startActivity(intent)
         }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
+    }
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu_principal, menu)
+        return true
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        return when (item.itemId) {
+
+            R.id.menuList -> {
+                recyclerView.layoutManager = LinearLayoutManager(this)
+                true
+            }
+
+            R.id.menuGrid -> {
+                recyclerView.layoutManager = GridLayoutManager(this, 2)
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

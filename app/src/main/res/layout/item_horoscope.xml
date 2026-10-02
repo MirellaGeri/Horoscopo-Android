@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/signImageView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:src="@drawable/aries_icon"/>
     <LinearLayout
         android:layout_width="match_parent"
