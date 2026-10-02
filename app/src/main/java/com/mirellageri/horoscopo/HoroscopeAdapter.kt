@@ -1,5 +1,6 @@
 package com.mirellageri.horoscopo
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,7 +8,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HoroscopeAdapter(val items: List<Horoscope>): RecyclerView.Adapter<HoroscopeViewHolder>() {
+class HoroscopeAdapter(
+    val items: List<Horoscope>,
+    //estamos creando una funcion lambda simple que no devuelva resultado pero si recibe un parametro
+    val onItemClick:(position:Int) -> Unit )
+: RecyclerView.Adapter<HoroscopeViewHolder>() {
     //cual es la vista de cada elemento
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoroscopeViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_horoscope,parent,false)
@@ -17,6 +22,10 @@ class HoroscopeAdapter(val items: List<Horoscope>): RecyclerView.Adapter<Horosco
     override fun onBindViewHolder(holder: HoroscopeViewHolder, position: Int) {
         val horoscope = items[position]
         holder.render(horoscope)
+        holder.itemView.setOnClickListener {
+            //Navegar al detalle
+            onItemClick(position)
+        }
     }
     //cuantos elementos tengo que mostrar
     override fun getItemCount(): Int {

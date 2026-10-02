@@ -1,6 +1,8 @@
 package com.mirellageri.horoscopo
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -38,7 +40,14 @@ class MainActivity : AppCompatActivity() {
         }
 
         recyclerView = findViewById(R.id.recyclerView)
-        adapter = HoroscopeAdapter(horoscopeList)
+        //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
+        adapter = HoroscopeAdapter(horoscopeList) { position ->
+            val horoscope = horoscopeList[position]
+            //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
+            val intent = Intent(this, DetailActivity::class.java)
+            intent.putExtra("HOROSCOPE_ID",horoscope.id)
+            startActivity(intent)
+        }
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
