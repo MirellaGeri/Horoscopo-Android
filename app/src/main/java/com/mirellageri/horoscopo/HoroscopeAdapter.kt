@@ -21,7 +21,9 @@ class HoroscopeAdapter(
     //cuales son los datos del elemento que esta en tal posicion
     override fun onBindViewHolder(holder: HoroscopeViewHolder, position: Int) {
         val horoscope = items[position]
+        //mostrar horoscopo
         holder.render(horoscope)
+        //me dice mi viewholder cuando le das clic a all itemview que esta en el holder osea a lo que se muestra como cada celda
         holder.itemView.setOnClickListener {
             //Navegar al detalle
             onItemClick(position)

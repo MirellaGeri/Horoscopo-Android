@@ -7,7 +7,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import androidx.appcompat.widget.SearchView
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.GridLayoutManager
@@ -32,7 +32,6 @@ class MainActivity : AppCompatActivity() {
     )
     lateinit var recyclerView : RecyclerView
     lateinit var adapter: HoroscopeAdapter
-    lateinit var menuToolBar : Toolbar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +42,7 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        menuToolBar = findViewById(R.id.menuToolBar)
-        setSupportActionBar(menuToolBar)
+
         recyclerView = findViewById(R.id.recyclerView)
         //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
         adapter = HoroscopeAdapter(horoscopeList) { position ->
@@ -61,23 +59,34 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_principal, menu)
+        menuInflater.inflate(R.menu.activity_main_menu, menu)
+        val searchMenuItem = menu.findItem(R.id.search_menu)
+        //castear una clase que hereda de otra usando as
+        //actionView me devuelve cualquier vista pero con el as le decimos quiero de la busqueda que me devuelvas
+        val searchView = searchMenuItem.actionView as SearchView
+        //nos ayuda a darnos informacion de lo que esta haciendo
+        searchView.setOnQueryTextListener(object:SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                //cuando el usuario ha escrito y luego da a buscar
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                //mientras el usuario sigue escribiendo buscar pero sirve mas para datos que tiene local
+                TODO("Not yet implemented")
+            }
+        })
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         return when (item.itemId) {
-
             R.id.menuList -> {
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 true
             }
-
             R.id.menuGrid -> {
                 recyclerView.layoutManager = GridLayoutManager(this, 2)
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
