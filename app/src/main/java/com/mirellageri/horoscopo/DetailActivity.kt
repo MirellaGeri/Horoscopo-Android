@@ -1,5 +1,6 @@
 package com.mirellageri.horoscopo
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -17,6 +18,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var signDetailImageView : ImageView
     lateinit var nameDetailTextView : TextView
     lateinit var dateDetailTextView : TextView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -31,19 +33,17 @@ class DetailActivity : AppCompatActivity() {
         nameDetailTextView = findViewById(R.id.nameDetailTextView)
         dateDetailTextView = findViewById(R.id.dateDetailTextView)
 
-        //los activity tiene un intent
-        val id = intent.getStringExtra("HOROSCOPE_ID")
-        val name = intent.getIntExtra("HOROSCOPE_NAME",0)
-        val date = intent.getIntExtra("HOROSCOPE_DATE",0)
-        val image = intent.getIntExtra("HOROSCOPE_SIGN",0)
+        //los activity tiene un intent para recibir datos y si o si va a recibir el id le pongo !!
+        val id = intent.getStringExtra("HOROSCOPE_ID")!!
+        val horoscope = Horoscope.getById(id)
 
-        //mostrar los datos:
-        signDetailImageView.setImageResource(image)
-        nameDetailTextView.setText(name)
-        dateDetailTextView.setText(date)
+        //mostrar los ruta de datos en los respectivos cajitas de texto:
+        signDetailImageView.setImageResource(horoscope.sign)
+        nameDetailTextView.setText(horoscope.name)
+        dateDetailTextView.setText(horoscope.date)
 
-        supportActionBar?.title = id
-        supportActionBar?.subtitle="Subtitulo"
+        supportActionBar?.setTitle(horoscope.name)
+        supportActionBar?.setSubtitle(horoscope.date)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //boton atras pero sin funcionalidad
         //supportActionBar?.setHomeAsUpIndicator(image)
     }
@@ -57,6 +57,7 @@ class DetailActivity : AppCompatActivity() {
                 true
             }
             R.id.share_menu -> {
+                shareContent("falta implementear")
                 true
             }
             android.R.id.home -> {
@@ -66,5 +67,12 @@ class DetailActivity : AppCompatActivity() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    private fun shareContent(name : String){
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT,"Este es tu signo: $name")
+        }
+        startActivity(Intent.createChooser(shareIntent,"Compartir con .."))
     }
 }

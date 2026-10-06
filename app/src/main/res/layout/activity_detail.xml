@@ -17,7 +17,8 @@
             android:id="@+id/signDetailImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            app:tint="@color/horoscope_icon_color" />
         <TextView
             android:id="@+id/nameDetailTextView"
             android:layout_width="match_parent"
