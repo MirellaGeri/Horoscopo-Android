@@ -9,7 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class HoroscopeAdapter(
-    val items: List<Horoscope>,
+    var items: List<Horoscope>,
     //estamos creando una funcion lambda simple que no devuelva resultado pero si recibe un parametro
     val onItemClick:(position:Int) -> Unit )
 : RecyclerView.Adapter<HoroscopeViewHolder>() {
@@ -32,6 +32,10 @@ class HoroscopeAdapter(
     //cuantos elementos tengo que mostrar
     override fun getItemCount(): Int {
         return items.size
+    }
+    fun updateData(dataSet: List<Horoscope>){
+        items = dataSet
+        notifyDataSetChanged()
     }
 }
 

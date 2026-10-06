@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
-    val horoscopeList: List<Horoscope> = Horoscope.getAll()
+    var horoscopeList: List<Horoscope> = Horoscope.getAll()
     lateinit var recyclerView : RecyclerView
     lateinit var adapter: HoroscopeAdapter
 
@@ -58,6 +58,12 @@ class MainActivity : AppCompatActivity() {
             }
             override fun onQueryTextChange(newText: String): Boolean {
                 //mientras el usuario sigue escribiendo buscar pero sirve mas para datos que tiene local
+                horoscopeList = Horoscope.getAll().filter {
+                    //dos opciones de usar nuestro stringextension para buqueda
+                    getString(it.name).normalize().contains(newText.normalize(),true) ||
+                            getString(it.date).search(newText)
+                }
+                adapter.updateData(horoscopeList)
                 return true
             }
         })
