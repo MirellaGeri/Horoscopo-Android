@@ -1,21 +1,17 @@
-package com.mirellageri.horoscopo
+package com.mirellageri.horoscopo.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
+import com.mirellageri.horoscopo.data.Horoscope
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : androidx.appcompat.app.AppCompatActivity() {
     lateinit var signDetailImageView : ImageView
     lateinit var nameDetailTextView : TextView
     lateinit var dateDetailTextView : TextView
@@ -26,20 +22,20 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+        setContentView(_root_ide_package_.com.mirellageri.horoscopo.R.layout.activity_detail)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
         //inicializar:
-        signDetailImageView = findViewById(R.id.signDetailImageView)
-        nameDetailTextView = findViewById(R.id.nameDetailTextView)
-        dateDetailTextView = findViewById(R.id.dateDetailTextView)
+        signDetailImageView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.signDetailImageView)
+        nameDetailTextView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.nameDetailTextView)
+        dateDetailTextView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.dateDetailTextView)
 
         //los activity tiene un intent para recibir datos y si o si va a recibir el id le pongo !!
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
-        val horoscope = Horoscope.getById(id)
+        val horoscope = Horoscope.Companion.getById(id)
 
         //mostrar los ruta de datos en los respectivos cajitas de texto:
         signDetailImageView.setImageResource(horoscope.sign)
@@ -49,7 +45,7 @@ class DetailActivity : AppCompatActivity() {
         //Texto a compartir:
         nameToShare = getString(horoscope.name)
         dateToShare = getString(horoscope.date)
-        textToShare = getString(R.string.horoscope_text_to_share)
+        textToShare = getString(_root_ide_package_.com.mirellageri.horoscopo.R.string.horoscope_text_to_share)
         textToShare = textToShare + nameToShare + "\n" + dateToShare
         //Log.i("HOROSCOPE",textToShare)
 
@@ -59,15 +55,15 @@ class DetailActivity : AppCompatActivity() {
         //supportActionBar?.setHomeAsUpIndicator(image)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.activity_detail_menu, menu)
+        menuInflater.inflate(_root_ide_package_.com.mirellageri.horoscopo.R.menu.activity_detail_menu, menu)
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            R.id.favorite_menu ->{
+            _root_ide_package_.com.mirellageri.horoscopo.R.id.favorite_menu ->{
                 true
             }
-            R.id.share_menu -> {
+            _root_ide_package_.com.mirellageri.horoscopo.R.id.share_menu -> {
                 shareContent(textToShare)
                 true
             }

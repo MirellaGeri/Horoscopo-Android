@@ -1,12 +1,13 @@
-package com.mirellageri.horoscopo
+package com.mirellageri.horoscopo.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.mirellageri.horoscopo.data.Horoscope
+import com.mirellageri.horoscopo.R
 
 class HoroscopeAdapter(
     var items: List<Horoscope>,

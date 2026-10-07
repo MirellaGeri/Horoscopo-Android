@@ -1,4 +1,6 @@
-package com.mirellageri.horoscopo
+package com.mirellageri.horoscopo.data
+
+import com.mirellageri.horoscopo.R
 
 data class Horoscope(
     val id: String,
@@ -7,7 +9,7 @@ data class Horoscope(
     val sign: Int) {
     companion object{
         private val horoscopeList: List<Horoscope> =listOf(
-            Horoscope("aries",R.string.horoscope_name_aries,R.string.horoscope_date_aries,R.drawable.aries_icon),
+            Horoscope("aries", R.string.horoscope_name_aries, R.string.horoscope_date_aries, R.drawable.aries_icon),
             Horoscope("taurus", R.string.horoscope_name_taurus, R.string.horoscope_date_taurus, R.drawable.taurus_icon),
             Horoscope("gemini", R.string.horoscope_name_gemini, R.string.horoscope_date_gemini, R.drawable.gemini_icon),
             Horoscope("cancer", R.string.horoscope_name_cancer, R.string.horoscope_date_cancer, R.drawable.cancer_icon),

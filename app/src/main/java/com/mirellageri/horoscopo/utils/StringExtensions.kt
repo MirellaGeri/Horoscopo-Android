@@ -1,4 +1,4 @@
-package com.mirellageri.horoscopo
+package com.mirellageri.horoscopo.utils
 
 import java.text.Normalizer
 
