@@ -29,7 +29,6 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-
         recyclerView = findViewById(R.id.recyclerView)
         //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
         adapter = HoroscopeAdapter(horoscopeList) { position ->

@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="horoscope_icon_color">#FF000000</color>
     <color name="card_stroke_main">#80000000</color>
+    <color name="card_background">#59FFFFFF</color>
 </resources>

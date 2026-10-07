@@ -2,6 +2,7 @@ package com.mirellageri.horoscopo
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
@@ -18,6 +19,9 @@ class DetailActivity : AppCompatActivity() {
     lateinit var signDetailImageView : ImageView
     lateinit var nameDetailTextView : TextView
     lateinit var dateDetailTextView : TextView
+    lateinit var nameToShare: String
+    lateinit var dateToShare: String
+    lateinit var textToShare: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,6 +46,13 @@ class DetailActivity : AppCompatActivity() {
         nameDetailTextView.setText(horoscope.name)
         dateDetailTextView.setText(horoscope.date)
 
+        //Texto a compartir:
+        nameToShare = getString(horoscope.name)
+        dateToShare = getString(horoscope.date)
+        textToShare = getString(R.string.horoscope_text_to_share)
+        textToShare = textToShare + nameToShare + "\n" + dateToShare
+        //Log.i("HOROSCOPE",textToShare)
+
         supportActionBar?.setTitle(horoscope.name)
         supportActionBar?.setSubtitle(horoscope.date)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //boton atras pero sin funcionalidad
@@ -57,7 +68,7 @@ class DetailActivity : AppCompatActivity() {
                 true
             }
             R.id.share_menu -> {
-                shareContent("falta implementear")
+                shareContent(textToShare)
                 true
             }
             android.R.id.home -> {
@@ -68,10 +79,10 @@ class DetailActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
-    private fun shareContent(name : String){
+    private fun shareContent(text : String){
         val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
-            putExtra(Intent.EXTRA_TEXT,"Este es tu signo: $name")
+            putExtra(Intent.EXTRA_TEXT,text)
         }
         startActivity(Intent.createChooser(shareIntent,"Compartir con .."))
     }

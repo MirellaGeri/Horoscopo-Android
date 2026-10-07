@@ -10,6 +10,7 @@
         android:id="@+id/share_menu"
         android:title="@string/horoscope_menu_share"
         android:icon="@drawable/ic_share"
-        app:showAsAction="always"/>
+        app:showAsAction="always"
+        app:iconTint="@color/horoscope_icon_color"/>
 
 </menu>

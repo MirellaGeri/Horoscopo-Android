@@ -33,4 +33,6 @@
     <string name="horoscope_search_label">Buscar</string>
     <string name="horoscope_menu_favorite">Favorito</string>
     <string name="horoscope_menu_share">Compartir</string>
+
+    <string name="horoscope_text_to_share">Tu horoscopo es: </string>
 </resources>
