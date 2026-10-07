@@ -1,5 +1,5 @@
 package com.mirellageri.horoscopo.activities
-
+import com.mirellageri.horoscopo.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -15,8 +15,9 @@ import com.mirellageri.horoscopo.adapters.HoroscopeAdapter
 import com.mirellageri.horoscopo.data.Horoscope
 import com.mirellageri.horoscopo.utils.normalize
 import com.mirellageri.horoscopo.utils.search
+import androidx.appcompat.app.AppCompatActivity
 
-class MainActivity : androidx.appcompat.app.AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     var horoscopeList: List<Horoscope> = Horoscope.Companion.getAll()
     lateinit var recyclerView : RecyclerView
@@ -25,13 +26,13 @@ class MainActivity : androidx.appcompat.app.AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(_root_ide_package_.com.mirellageri.horoscopo.R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.main)) { v, insets ->
+        setContentView(R.layout.activity_main)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        recyclerView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.recyclerView)
+        recyclerView = findViewById(R.id.recyclerView)
         //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
         adapter =
             HoroscopeAdapter(horoscopeList) { position ->
@@ -44,11 +45,11 @@ class MainActivity : androidx.appcompat.app.AppCompatActivity() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        supportActionBar?.title = getString(_root_ide_package_.com.mirellageri.horoscopo.R.string.horoscope_title)
+        supportActionBar?.title = getString(R.string.horoscope_title)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(_root_ide_package_.com.mirellageri.horoscopo.R.menu.activity_main_menu, menu)
-        val searchMenuItem = menu.findItem(_root_ide_package_.com.mirellageri.horoscopo.R.id.search_menu)
+        menuInflater.inflate(R.menu.activity_main_menu, menu)
+        val searchMenuItem = menu.findItem(R.id.search_menu)
         //castear una clase que hereda de otra usando as
         //actionView me devuelve cualquier vista pero con el as le decimos quiero de la busqueda que me devuelvas
         val searchView = searchMenuItem.actionView as SearchView
@@ -73,11 +74,11 @@ class MainActivity : androidx.appcompat.app.AppCompatActivity() {
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            _root_ide_package_.com.mirellageri.horoscopo.R.id.menuList -> {
+            R.id.menuList -> {
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 true
             }
-            _root_ide_package_.com.mirellageri.horoscopo.R.id.menuGrid -> {
+            R.id.menuGrid -> {
                 recyclerView.layoutManager = GridLayoutManager(this, 2)
                 true
             }

@@ -1,5 +1,6 @@
 package com.mirellageri.horoscopo.activities
 
+import com.mirellageri.horoscopo.R
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -10,60 +11,78 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.mirellageri.horoscopo.data.Horoscope
+import com.mirellageri.horoscopo.utils.SessionManager
+import androidx.appcompat.app.AppCompatActivity
 
-class DetailActivity : androidx.appcompat.app.AppCompatActivity() {
+class DetailActivity : AppCompatActivity() {
     lateinit var signDetailImageView : ImageView
     lateinit var nameDetailTextView : TextView
     lateinit var dateDetailTextView : TextView
-    lateinit var nameToShare: String
-    lateinit var dateToShare: String
-    lateinit var textToShare: String
+    lateinit var session: SessionManager
+    var isFavorite = false
+    lateinit var horoscope: Horoscope
+    lateinit var favoriteMenuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(_root_ide_package_.com.mirellageri.horoscopo.R.layout.activity_detail)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.main)) { v, insets ->
+        setContentView(R.layout.activity_detail)
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
         //inicializar:
-        signDetailImageView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.signDetailImageView)
-        nameDetailTextView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.nameDetailTextView)
-        dateDetailTextView = findViewById(_root_ide_package_.com.mirellageri.horoscopo.R.id.dateDetailTextView)
+        signDetailImageView = findViewById(R.id.signDetailImageView)
+        nameDetailTextView = findViewById(R.id.nameDetailTextView)
+        dateDetailTextView = findViewById(R.id.dateDetailTextView)
+
+        //Session:
+        session = SessionManager(this)
 
         //los activity tiene un intent para recibir datos y si o si va a recibir el id le pongo !!
         val id = intent.getStringExtra("HOROSCOPE_ID")!!
-        val horoscope = Horoscope.Companion.getById(id)
+        horoscope = Horoscope.Companion.getById(id)
 
         //mostrar los ruta de datos en los respectivos cajitas de texto:
         signDetailImageView.setImageResource(horoscope.sign)
         nameDetailTextView.setText(horoscope.name)
         dateDetailTextView.setText(horoscope.date)
 
-        //Texto a compartir:
-        nameToShare = getString(horoscope.name)
-        dateToShare = getString(horoscope.date)
-        textToShare = getString(_root_ide_package_.com.mirellageri.horoscopo.R.string.horoscope_text_to_share)
-        textToShare = textToShare + nameToShare + "\n" + dateToShare
-        //Log.i("HOROSCOPE",textToShare)
-
         supportActionBar?.setTitle(horoscope.name)
         supportActionBar?.setSubtitle(horoscope.date)
         supportActionBar?.setDisplayHomeAsUpEnabled(true) //boton atras pero sin funcionalidad
         //supportActionBar?.setHomeAsUpIndicator(image)
+
+        //Preguntar si FAvorite is true o false para rellenar el corazon
+        isFavorite = session.isFavorite(id)
     }
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(_root_ide_package_.com.mirellageri.horoscopo.R.menu.activity_detail_menu, menu)
+        menuInflater.inflate(R.menu.activity_detail_menu, menu)
+        //despues que el menu se haya creado recien pintar si es true
+        favoriteMenuItem = menu.findItem(R.id.favorite_menu)
+        setFavoriteIcon()
         return true
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
-            _root_ide_package_.com.mirellageri.horoscopo.R.id.favorite_menu ->{
+            R.id.favorite_menu ->{
+                if (isFavorite){
+                    session.setFavorite("")
+                }else{
+                    session.setFavorite(horoscope.id)
+                }
+                isFavorite = !isFavorite
+                setFavoriteIcon()
                 true
             }
-            _root_ide_package_.com.mirellageri.horoscopo.R.id.share_menu -> {
+            R.id.share_menu -> {
+                //Texto a compartir:
+                val nameToShare = getString(horoscope.name)
+                val dateToShare = getString(horoscope.date)
+                var textToShare = getString(R.string.horoscope_text_to_share)+" "
+                textToShare = textToShare + nameToShare + "\n" + dateToShare
+                //Log.i("HOROSCOPE",textToShare)
                 shareContent(textToShare)
                 true
             }
@@ -76,10 +95,17 @@ class DetailActivity : androidx.appcompat.app.AppCompatActivity() {
         }
     }
     private fun shareContent(text : String){
-        val shareIntent = Intent(Intent.ACTION_SEND).apply {
+        val sendIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT,text)
         }
-        startActivity(Intent.createChooser(shareIntent,"Compartir con .."))
+        startActivity(Intent.createChooser(sendIntent,"Compartir con .."))
+    }
+    fun setFavoriteIcon(){
+        if (isFavorite){
+            favoriteMenuItem.setIcon(R.drawable.ic_favorite_selected)
+        }else{
+            favoriteMenuItem.setIcon(R.drawable.ic_favorite)
+        }
     }
 }
