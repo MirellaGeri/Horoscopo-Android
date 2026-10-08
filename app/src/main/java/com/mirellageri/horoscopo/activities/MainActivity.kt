@@ -22,6 +22,7 @@ class MainActivity : AppCompatActivity() {
     var horoscopeList: List<Horoscope> = Horoscope.Companion.getAll()
     lateinit var recyclerView : RecyclerView
     lateinit var adapter: HoroscopeAdapter
+    var viewlayout:Int = R.layout.item_horoscope
 
     override fun onCreate(savedInstanceState: Bundle?) {
         //es el que crea y no se actualiza si hiciste cambio en otro activity y regresas tienes que acceder al onResume
@@ -35,15 +36,7 @@ class MainActivity : AppCompatActivity() {
         }
         recyclerView = findViewById(R.id.recyclerView)
         //cuando solo es un parametro no es necesario dar nombre y solo usar el it pero sino de esta manera
-        adapter =
-            HoroscopeAdapter(horoscopeList) { position ->
-                val horoscope = horoscopeList[position]
-                //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("HOROSCOPE_ID", horoscope.id)
-                startActivity(intent)
-            }
-        recyclerView.adapter = adapter
+        builtAdapter(viewlayout)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         supportActionBar?.title = getString(R.string.horoscope_title)
@@ -81,14 +74,29 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.menuList -> {
+                viewlayout = R.layout.item_horoscope
+                builtAdapter(viewlayout)
                 recyclerView.layoutManager = LinearLayoutManager(this)
                 true
             }
             R.id.menuGrid -> {
+                viewlayout = R.layout.item_horoscope_grid
+                builtAdapter(viewlayout)
                 recyclerView.layoutManager = GridLayoutManager(this, 2)
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+    private fun builtAdapter(layout:Int){
+        adapter =
+            HoroscopeAdapter(horoscopeList,layout) { position ->
+                val horoscope = horoscopeList[position]
+                //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
+                val intent = Intent(this, DetailActivity::class.java)
+                intent.putExtra("HOROSCOPE_ID", horoscope.id)
+                startActivity(intent)
+            }
+        recyclerView.adapter = adapter
     }
 }

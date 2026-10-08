@@ -1,6 +1,7 @@
 package com.mirellageri.horoscopo.adapters
 
 import android.provider.ContactsContract
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,12 +15,13 @@ import com.mirellageri.horoscopo.utils.SessionManager
 
 class HoroscopeAdapter(
     var items: List<Horoscope>,
+    var layout: Int,
     //estamos creando una funcion lambda simple que no devuelva resultado pero si recibe un parametro
     val onItemClick:(position:Int) -> Unit )
 : RecyclerView.Adapter<HoroscopeViewHolder>() {
     //cual es la vista de cada elemento
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HoroscopeViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_horoscope,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(layout,parent,false)//R.layout.item_horoscope
         return HoroscopeViewHolder(view)
     }
     //cuales son los datos del elemento que esta en tal posicion
