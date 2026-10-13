@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_today"
+        android:title="@string/horoscope_menu_today"
+        android:icon="@drawable/ic_today"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_weekly"
+        android:title="@string/horoscope_menu_weekly"
+        android:icon="@drawable/ic_weekly"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/menu_monthly"
+        android:title="@string/horoscope_menu_monthly"
+        android:icon="@drawable/ic_weekly"
+        app:showAsAction="always" />
+
+</menu>

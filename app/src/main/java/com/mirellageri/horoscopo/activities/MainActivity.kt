@@ -89,14 +89,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private fun builtAdapter(layout:Int){
-        adapter =
-            HoroscopeAdapter(horoscopeList,layout) { position ->
-                val horoscope = horoscopeList[position]
-                //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
-                val intent = Intent(this, DetailActivity::class.java)
-                intent.putExtra("HOROSCOPE_ID", horoscope.id)
-                startActivity(intent)
-            }
+        adapter = HoroscopeAdapter(horoscopeList,layout,::onClickListener)
         recyclerView.adapter = adapter
+    }
+    private fun onClickListener(position : Int){
+        val horoscope = horoscopeList[position]
+        //NAVEGAR: intent ayudara a abrir navegadores, usar camara, activar servicios ... // ::class es pasar el plano o tipo de dato del objeto
+        val intent = Intent(this, DetailActivity::class.java)
+        intent.putExtra("HOROSCOPE_ID", horoscope.id)
+        startActivity(intent)
     }
 }

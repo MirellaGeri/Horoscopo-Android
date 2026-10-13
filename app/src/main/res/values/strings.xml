@@ -32,6 +32,11 @@
     <string name="horoscope_search_label">Search</string>
     <string name="horoscope_menu_favorite">Favorite</string>
     <string name="horoscope_menu_share">Share</string>
+    <string name="horoscope_menu_today">Today</string>
+    <string name="horoscope_menu_weekly">Weekly</string>
+    <string name="horoscope_menu_monthly">Monthly</string>
+
 
     <string name="horoscope_text_to_share">Your Horoscope is:</string>
+    <string name="horoscope_prediction_loading"></string>
 </resources>

@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.DetailActivity"
-    android:background="@drawable/background_detail">
+    android:background="@drawable/background_detail"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:padding="10dp"
-        android:gravity="center_horizontal">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_weight="1">
+
         <ImageView
             android:id="@+id/signDetailImageView"
             android:layout_width="200dp"
@@ -21,22 +27,40 @@
             android:scaleType="centerCrop"
             android:src="@drawable/aries_icon"
             app:tint="@color/horoscope_icon_color" />
+
         <TextView
             android:id="@+id/nameDetailTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Name"
+            android:textAlignment="center"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textAlignment="center"/>
+            tools:text="Name" />
+
         <TextView
             android:id="@+id/dateDetailTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="Date"
-            android:textSize="18sp"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            android:textSize="20sp"
+            tools:text="Date" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/predictionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                tools:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since 1966, when designers at Letraset and James Mosley, the librarian at St Bride Printing Library in London, took a 1914 Cicero translation and scrambled it to make dummy text for Letraset's Body Type sheets. It has survived not only many decades, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised thanks to these sheets and more recently with desktop publishing software like Aldus PageMaker and Microsoft Word including versions of Lorem Ipsum." />
+        </ScrollView>
 
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:menu="@menu/activity_detail_navigation_menu"/>
+</LinearLayout>
