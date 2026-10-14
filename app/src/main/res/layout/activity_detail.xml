@@ -45,6 +45,13 @@
             android:textSize="20sp"
             tools:text="Date" />
 
+        <com.google.android.material.progressindicator.LinearProgressIndicator
+            android:id="@+id/progressIndicatorDetail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:indeterminate="true"
+            android:layout_marginTop="8dp"/>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"

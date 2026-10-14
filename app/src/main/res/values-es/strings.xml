@@ -38,5 +38,5 @@
     <string name="horoscope_menu_monthly">Mensual</string>
 
     <string name="horoscope_text_to_share">Tu horoscopo es:</string>
-    <string name="horoscope_prediction_loading"></string>
+    <string name="horoscope_prediction_loading">Consultando con las estrellas…</string>
 </resources>

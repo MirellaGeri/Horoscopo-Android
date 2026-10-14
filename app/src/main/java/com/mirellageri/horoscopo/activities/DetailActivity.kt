@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationBarView
 import com.google.android.material.navigation.NavigationView
+import com.google.android.material.progressindicator.LinearProgressIndicator
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -37,6 +38,7 @@ class DetailActivity : AppCompatActivity() {
     lateinit var favoriteMenuItem: MenuItem
     lateinit var predictionTextView: TextView
     lateinit var bottomNavigationView: BottomNavigationView
+    lateinit var progressIndicatorDetail: LinearProgressIndicator
     var predictionToShare = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +47,7 @@ class DetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_detail)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
         //Session:
@@ -119,13 +121,14 @@ class DetailActivity : AppCompatActivity() {
         dateDetailTextView = findViewById(R.id.dateDetailTextView)
         predictionTextView = findViewById(R.id.predictionTextView)
         bottomNavigationView = findViewById(R.id.bottomNavigationView)
+        progressIndicatorDetail = findViewById(R.id.progressIndicatorDetail)
     }
     private fun shareContent(text: String) {
         val sendIntent = Intent(Intent.ACTION_SEND).apply {
             type = "text/plain"
             putExtra(Intent.EXTRA_TEXT, text)
         }
-        startActivity(Intent.createChooser(sendIntent, "Compartir con .."))
+        startActivity(Intent.createChooser(sendIntent, ""))
     }
     private fun setFavoriteIcon() {
         if (isFavorite) {
@@ -135,6 +138,7 @@ class DetailActivity : AppCompatActivity() {
         }
     }
     private fun getHoroscopePrediction(period:String = "daily"){
+        progressIndicatorDetail.show()
         predictionTextView.setText(R.string.horoscope_prediction_loading)
         CoroutineScope(Dispatchers.IO).launch {
             val urlGetRequest =
@@ -156,6 +160,7 @@ class DetailActivity : AppCompatActivity() {
                     CoroutineScope(Dispatchers.Main).launch {
                         predictionToShare = result
                         predictionTextView.text = result
+                        progressIndicatorDetail.hide()
                     }
                     Log.w("API REST", result)
                 }else {
@@ -182,7 +187,7 @@ class DetailActivity : AppCompatActivity() {
             return response.toString()
     }
     private fun getNavigationView(){
-        NavigationBarView.OnItemSelectedListener{ item ->
+        bottomNavigationView.setOnItemSelectedListener{ item ->
             when(item.itemId){
                 R.id.menu_today ->{
                     getHoroscopePrediction()
